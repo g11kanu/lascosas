@@ -1,4 +1,5 @@
 import threading
+import asyncio
 import os
 import logging
 try:
@@ -13,12 +14,14 @@ logging.basicConfig(
 )
 
 def run_telegram():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
     from bot import main
     main()
 
 def run_whatsapp():
     from whatsapp import app
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
 
 if __name__ == "__main__":
